@@ -1,0 +1,255 @@
+        def AnswersViewWindow(self):
+            Answers = Answers_Controller()
+            results = Answers.Return_AnswersNoInput()
+            Maxrows = len(results)
+            self.setWindowTitle('Answers Editor')
+            self.AnswersViewRecordTable = QTableWidget(Maxrows,2)
+            self.AnswersViewRecordTable.setHorizontalHeaderLabels(['Answers ID','Correct Answer'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    #print(each)
+                    additem = results[row][column]
+                    if Answers(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    print(self.AnswersViewRecordTable.setItem(row,column,item))
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #create table and push buttons
+            #Searchfor Answers
+            self.SearchItem = QLineEdit('Answers_Name')
+            self.AnswersSearchSubmit = QPushButton('Start Search')
+            self.AddAnswersButton = QPushButton('Add')
+            self.EditAnswersButton = QPushButton('Edit')
+            self.DeleteAnswersButton = QPushButton('Delete')
+            #create layout
+            self.AnswersTableBox = QVBoxLayout()
+            self.AnswersTableBox.addWidget(self.AnswersViewRecordTable)
+            #create vertical layout
+            self.AnswersAnswersButtonLayout = QHBoxLayout()
+            self.AnswersButtonLayout.addWidget(self.AddAnswersButton)
+            self.AnswersButtonLayout.addWidget(self.EditAnswersButton)
+            self.AnswersButtonLayout.addWidget(self.DeleteAnswersButton)
+            #scond to last layout
+            self.AnswersSearchLastLayout = QVBoxLayout()
+            self.AnswersSearchLastLayout.addLayout(self.AnswersTableBox)
+            self.AnswersSearchLastLayout.addWidget(self.SearchItem)
+            self.AnswersSearchLastLayout.addWidget(self.AnswersSearchSubmit)
+            self.AnswersSearchLastLayout.addLayout(self.AnswersButtonLayout)
+            #Final Layout
+            self.AnswersLayout = QWidget()
+            self.AnswersLayout.setLayout(self.AnswersSearchLastLayout)
+            self.setCentralWidget(self.AnswersLayout)
+            #connect
+            self.AddAnswersButton.clicked.connect(self.AddAnswers)
+            self.EditAnswersButton.clicked.connect(self.EditAnswers)
+            self.DeleteAnswersButton.clicked.connect(self.DeleteAnswers)
+            self.AnswersSearchSubmit.clicked.connect(self.SearchLayout)
+            
+
+        def AnswersSearchLayout(self):
+            #Items
+            Search = self.SearchItem.text()
+            Answers = Answers_Controller()
+            results = Answers.SearchForAnswers(Search)
+            print(results)
+            self.setWindowTitle('Answers Editor')
+            #create table and push buttons
+            if results == [] or None:
+                print('The Search failed')
+            Maxrows = len(results)
+            self.AnswersRecordTableSearchresults = QTableWidget(Maxrows,2)
+            self.AnswersRecordTableSearchresults.setHorizontalHeaderLabels(['ID Number','Correct Answer',])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if Answers(additem) == int:
+                        additem = str(additem)
+                        Item = QTableWidgetItem(additem)
+                    self.AnswersRecordTableSearchresults.setItem(row,column,Item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #Searchfor Answers
+            self.SearchItem = QLineEdit('Answers_Name')
+            self.AnswersSearchSubmit = QPushButton('Start Search')
+            self.AddAnswersButton = QPushButton('Add')
+            self.EditAnswersButton = QPushButton('Edit')
+            self.DeleteAnswersButton = QPushButton('Delete')
+            #create layout
+            self.AnswersTableBox = QVBoxLayout()
+            self.AnswersTableBox.addWidget(self.AnswersRecordTableSearchresults)
+            #create vertical layout
+            self.AnswersButtonLayout = QHBoxLayout()
+            self.AnswersButtonLayout.addWidget(self.AddAnswersButton)
+            self.AnswersButtonLayout.addWidget(self.EditAnswersButton)
+            self.AnswersButtonLayout.addWidget(self.DeleteAnswersButton)
+            #scond to last layout
+            self.AnswersSearchLastLayout = QVBoxLayout()
+            self.AnswersSearchLastLayout.addLayout(self.AnswersTableBox)
+            self.AnswersSearchLastLayout.addWidget(self.SearchItem)
+            self.AnswersSearchLastLayout.addWidget(self.AnswersSearchSubmit)
+            self.AnswersSearchLastLayout.addLayout(self.AnswersButtonLayout)
+            #Final Layout
+            self.AnswersLayout = QWidget()
+            self.AnswersLayout.setLayout(self.AnswersSearchLastLayout)
+            self.setCentralWidget(self.AnswersLayout)
+            #connect
+            self.AddAnswersButton.clicked.connect(self.AddAnswers)
+            self.EditAnswersButton.clicked.connect(self.EditAnswers)
+            self.DeleteAnswersButton.clicked.connect(self.DeleteAnswers)
+            
+        def AddAnswers(self):
+            Answers = Answers_Controller()
+            results = Answers.Return_AnswersNoInput()
+            self.setWindowTitle('Add Answers')
+            #create table and push buttons
+            Maxrows = len(results)
+            self.setWindowTitle('Answers Editor')
+            #create table and push buttons
+            self.AddAnswersRecordTable = QTableWidget(Maxrows,2)
+            self.AddAnswersRecordTable.setHorizontalHeaderLabels(['ID Number','Correct Answer',])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    #print(each)
+                    additem = results[row][column]
+                    if Answers(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.AddAnswersRecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            self.AnswersLabel = QLabel('Enter an appropriate Answer here!')
+            self.Answers_ID= QLineEdit()        
+            self.SubmitChanges = QPushButton('Submit Changes')
+            #create table layout
+            self.AddAnswersTableLayout = QVBoxLayout()
+            self.AddAnswersTableLayout.addWidget(self.AddAnswersRecordTable)
+            #create layout
+            self.AddAnswersLayout = QGridLayout()
+            self.AddAnswersLayout.addWidget(self.AnswersLabel,0,1)
+            self.AddAnswersLayout.addWidget(self.Answers_ID,1,1)
+            self.AddAnswersLayout.addWidget(self.SubmitChanges,2,0)
+            self.AddAnswersFinalLayout = QVBoxLayout()
+            self.AddAnswersFinalLayout.addLayout(self.AddAnswersTableLayout)
+            self.AddAnswersFinalLayout.addLayout(self.AddAnswersLayout)
+            self.AddAnswersLayout = QWidget()
+            self.AddAnswersLayout.setLayout(self.AddAnswersFinalLayout)
+            self.setCentralWidget(self.AddAnswersLayout)
+            #something about result of line edit etc 
+            self.SubmitChanges.clicked.connect(self.AddAnswerschanges)
+            
+        def AddAnswerschanges(self):
+            self.Answers_Name = self.Answers_ID.text()
+            Answers = Answers_Controller() 
+            Answers.Add_Answers(self.Answers_Name)
+
+        def EditAnswers(self):
+            Answers = Answers_Controller()
+            results = Answers.Return_AnswersNoInput()
+            self."setWindowTitle"('Answers Editor')
+            #create table and push buttons
+            Maxrows = len(results)
+            self.EditAnswersRecordTable = QTableWidget(Maxrows,2)
+            self.EditAnswersRecordTable.setHorizontalHeaderLabels(['ID Number','Correct Answer'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if Answers(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.EditAnswersRecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            self.Answers_IDLabel = QLabel('enter an appropriate Answers ID')
+            self.CorrectAnswersLabel = QLabel('Enter an appropriate Correct Answer')
+            self.Answers_ID= QLineEdit('Answers_ID')          
+            self.CorrectAnswer = QLineEdit('Correct_Answer')
+            self.SubmitChanges = QPushButton('Submit Results')
+            #create layout for labels and line edits
+            self.EditAnswersInputLayout = QGridLayout()
+            self.EditAnswersInputLayout.addWidget(self.Answers_IDLabel,0,0)
+            self.EditAnswersLayout.addWidget(self.CorrectAnswersLabel,1,0)
+            self.EditAnswersLayout.addWidget(self.Answers_ID,0,1)
+            self.EditAnswersLayout.addWidget(self.CorrectAnswer,1,1)
+            #mainWidget
+            self.EditAnswersFinalLayout =QVBoxLayout()
+            self.EditAnswersFinalLayout.addWidget(self.EditAnswersRecordTable)
+            self.EditAnswersFinalLayout.addLayout(self.InputLayout)
+            self.EditAnswersFinalLayout.addWidget(self.SubmitChanges)
+            self.EditAnswers = QWidget()
+            self.EditAnswers.setLayout(self.EditAnswersFinalLayout)
+            self.setCentralWidget(self.EditAnswers)
+            #connections
+            self.SubmitChanges.clicked.connect(self.UpdateAnswerschanges)
+
+        def UpdateAnswerschanges(self):
+            Answers_ID = self.Answers_ID.text()
+            First_Name = self.CorrectAnswer.text()
+            Answers = Answers_Controller()
+            Answers.Update_Answers(Answers_ID,CorrectAnswer)
+            
+        def DeleteAnswers(self):
+            Answers = Answers_Controller()
+            results = Answers.Return_AnswersNoInput()
+            self.setWindowTitle('Answerss Editor')
+            Maxrows = len(results)
+            self.DeleteAnswersRecordTable = QTableWidget(Maxrows,2)
+            self.DeleteAnswersRecordTable.setHorizontalHeaderLabels(['ID Number','Correct Answer'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if Answers(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.DeleteAnswersRecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #create table and push buttons
+            self.AnswersIDLabel = QLabel('enter an appropriate Answers ID')
+            self.AnswersIDinfo = QLineEdit()
+            self.SubmitChanges = QPushButton('Submit Changes')
+            #create layout for labels and line edits
+            self.DeleteAnswersInputLayout = QGridLayout()
+            self.DeleteAnswersInputLayout.addWidget(self.AnswersIDLabel,0,0)
+            self.DeleteAnswersInputLayout.addWidget(self.AnswersIDinfo,0,1)
+            #mainWidget
+            self.DeleteAnswersLayout =QVBoxLayout()
+            self.DeleteAnswersLayout.addWidget(self.DeleteAnswersRecordTable)
+            self.DeleteAnswersLayout.addLayout(self.DeleteAnswersInputLayout)
+            self.DeleteAnswersLayout.addWidget(self.SubmitChanges)
+            self.DeleteAnswers = QWidget()
+            self.DeleteAnswers.setLayout(self.DeleteAnswersLayout)
+            self.setCentralWidget(self.DeleteAnswers)
+            #connections
+            self.SubmitChanges.clicked.connect(self.DeleteAnswerschanges)
+            
+        def DeleteAnswerschanges(self):
+            Answers_ID = self.AnswersIDinfo.text()
+            Answers = Answers_Controller()
+            Answers.Delete_Answers(Answers_ID)
+

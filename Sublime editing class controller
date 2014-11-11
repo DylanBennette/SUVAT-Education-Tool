@@ -1,0 +1,256 @@
+        def TypeViewWindow(self):
+            Type = Type_Controller()
+            results = Type.Return_TypesNoInput()
+            Maxrows = len(results)
+            self.setWindowTitle('Type Editor')
+            self.RecordTable = QTableWidget(Maxrows,2)
+            self.RecordTable.setHorizontalHeaderLabels(['ID Number','Question_Type',])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    #print(each)
+                    additem = results[row][column]
+                    if type(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    print(self.RecordTable.setItem(row,column,item))
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #create table and push buttons
+            #Searchfor Type
+            self.SearchItem = QLineEdit('Type_Name')
+            self.SearchSubmit = QPushButton('Start Search')
+            self.AddTypeButton = QPushButton('Add')
+            self.EditTypeButton = QPushButton('Edit')
+            self.DeleteTypeButton = QPushButton('Delete')
+            #create layout
+            self.TableBox = QVBoxLayout()
+            self.TableBox.addWidget(self.RecordTable)
+            #create vertical layout
+            self.ButtonLayout = QHBoxLayout()
+            self.ButtonLayout.addWidget(self.AddTypeButton)
+            self.ButtonLayout.addWidget(self.EditTypeButton)
+            self.ButtonLayout.addWidget(self.DeleteTypeButton)
+            #scond to last layout
+            self.LastLayout = QVBoxLayout()
+            self.LastLayout.addLayout(self.TableBox)
+            self.LastLayout.addWidget(self.SearchItem)
+            self.LastLayout.addWidget(self.SearchSubmit)
+            self.LastLayout.addLayout(self.ButtonLayout)
+            #Final Layout
+            self.TypeLayout = QWidget()
+            self.TypeLayout.setLayout(self.LastLayout)
+            self.setCentralWidget(self.TypeLayout)
+            #connect
+            self.AddTypeButton.clicked.connect(self.AddType)
+            self.EditTypeButton.clicked.connect(self.EditType)
+            self.DeleteTypeButton.clicked.connect(self.DeleteType)
+            self.SearchSubmit.clicked.connect(self.SearchLayout)
+            
+
+        def TypeSearchLayout(self):
+            #Items
+            Search = self.SearchItem.text()
+            Type = Type_Controller()
+            results = Type.SearchForType(Search)
+            print(results)
+            self.setWindowTitle('Type Editor')
+            #create table and push buttons
+            if results == [] or None:
+                print('The Search failed')
+            Maxrows = len(results)
+            self.RecordTableSearchresults = QTableWidget(Maxrows,2)
+            self.RecordTableSearchresults.setHorizontalHeaderLabels(['ID Number','Question_Type'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if type(additem) == int:
+                        additem = str(additem)
+                        Item = QTableWidgetItem(additem)
+                    self.RecordTable.setItem(row,column,Item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #Searchfor Type
+            self.SearchItem = QLineEdit('Type_Name')
+            self.SearchSubmit = QPushButton('Start Search')
+            self.AddTypeButton = QPushButton('Add')
+            self.EditTypeButton = QPushButton('Edit')
+            self.DeleteTypeButton = QPushButton('Delete')
+            #create layout
+            self.TableBox = QVBoxLayout()
+            self.TableBox.addWidget(self.RecordTableSearchresults)
+            #create vertical layout
+            self.ButtonLayout = QHBoxLayout()
+            self.ButtonLayout.addWidget(self.AddTypeButton)
+            self.ButtonLayout.addWidget(self.EditTypeButton)
+            self.ButtonLayout.addWidget(self.DeleteTypeButton)
+            #scond to last layout
+            self.LastLayout = QVBoxLayout()
+            self.LastLayout.addLayout(self.TableBox)
+            self.LastLayout.addWidget(self.SearchItem)
+            self.LastLayout.addWidget(self.SearchSubmit)
+            self.LastLayout.addLayout(self.ButtonLayout)
+            #Final Layout
+            self.TypeLayout = QWidget()
+            self.TypeLayout.setLayout(self.LastLayout)
+            self.setCentralWidget(self.TypeLayout)
+            #connect
+            self.AddTypeButton.clicked.connect(self.AddType)
+            self.EditTypeButton.clicked.connect(self.EditType)
+            self.DeleteTypeButton.clicked.connect(self.DeleteType)
+            
+        def AddType(self):
+            Type = Type_Controller()
+            results = Type.Return_TypesNoInput()
+            self.setWindowTitle('Add Type')
+            #create table and push buttons
+            Maxrows = len(results)
+            self.setWindowTitle('Type Editor')
+            #create table and push buttons
+            self.RecordTable = QTableWidget(Maxrows,2)
+            self.RecordTable.setHorizontalHeaderLabels(['ID Number','Question_Type'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    #print(each)
+                    additem = results[row][column]
+                    if type(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.RecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            self.Question_TypeLabel = QLabel('Enter an appropriate Type Type here!')
+            self.Question_Type= QLineEdit()        
+            self.SubmitChanges = QPushButton('Submit Changes')
+            #create table layout
+            self.TableLayout = QVBoxLayout()
+            self.TableLayout.addWidget(self.RecordTable)
+            #create layout
+            self.AddTypeLayout = QGridLayout()
+            self.AddTypeLayout.addWidget(self.Question_TypeLabel,0,1)
+            self.AddTypeLayout.addWidget(self.Question_Type,1,1)
+            self.AddTypeLayout.addWidget(self.SubmitChanges,2,0)
+            self.FinalLayout = QVBoxLayout()
+            self.FinalLayout.addLayout(self.TableLayout)
+            self.FinalLayout.addLayout(self.AddTypeLayout)
+            self.AddTypeLayout = QWidget()
+            self.AddTypeLayout.setLayout(self.FinalLayout)
+            self.setCentralWidget(self.AddTypeLayout)
+            #something about result of line edit etc 
+            self.SubmitChanges.clicked.connect(self.AddTypechanges)
+            
+        def AddTypechanges(self):
+            self.Type_Name = self.Question_Type.text()
+            Type = Type_Controller() 
+            Type.Add_Type(self.Type_Name)
+
+        def EditType(self):
+            Type = Type_Controller()
+            results = Type.Return_TypesNoInput()
+            self."setWindowTitle"('Type Editor')
+            #create table and push buttons
+            Maxrows = len(results)
+            self.RecordTable = QTableWidget(Maxrows,2)
+            self.RecordTable.setHorizontalHeaderLabels(['ID Number','Question_TypeType'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if type(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.RecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            self.Type_IDLabel = QLabel('enter an appropriate Type ID')
+            self.Question_TypeLabel = QLabel('Enter an appropriate Question_Type')
+            self.Question_Type= QLineEdit('Question_Type')          
+            self.Type_ID = QLineEdit('Type_ID')
+            self.SubmitChanges = QPushButton('Submit Results')
+            #create layout for labels and line edits
+            self.InputLayout = QGridLayout()
+            self.InputLayout.addWidget(self.Type_IDLabel,0,0)
+            self.AddTypeLayout.addWidget(self.Question_TypeLabel,0,1)
+            self.AddTypeLayout.addWidget(self.Question_Type,1,1)
+            self.InputLayout.addWidget(self.Type_ID,1,0)
+            self.InputLayout.addWidget(self.TypeName,1,1)        
+            #mainWidget
+            self.FinalLayout =QVBoxLayout()
+            self.FinalLayout.addWidget(self.RecordTable)
+            self.FinalLayout.addLayout(self.InputLayout)
+            self.FinalLayout.addWidget(self.SubmitChanges)
+            self.EditType = QWidget()
+            self.EditType.setLayout(self.FinalLayout)
+            self.setCentralWidget(self.EditType)
+            #connections
+            self.SubmitChanges.clicked.connect(self.UpdateTypechanges)
+
+        def UpdateTypechanges(self):
+            Type_ID = self.Type_ID.text()
+            Question_Type = self.Type.text()
+            Type = Type_Controller()
+            Type.Update_Type(Type_ID,Question_Type)
+            
+        def DeleteType(self):
+            Type = Type_Controller()
+            results = Type.Return_TypesNoInput()
+            self.setWindowTitle('Types Editor')
+            Maxrows = len(results)
+            self.RecordTable = QTableWidget(Maxrows,2)
+            self.RecordTable.setHorizontalHeaderLabels(['ID Number','Type','Type Type'])
+            row = 0
+            column = 0
+            for i in range(0,2):
+                for each in results:
+                    additem = results[row][column]
+                    if type(additem) == int:
+                        additem = str(additem)
+                    item = QTableWidgetItem(additem)
+                    self.RecordTable.setItem(row,column,item)
+                    if row <= Maxrows:
+                        row +=1
+                        if row == Maxrows:
+                            column +=1
+                            row = 0
+            #create table and push buttons
+            self.TypeIDLabel = QLabel('enter an appropriate Type ID')
+            self.TypeIDinfo = QLineEdit()
+            self.SubmitChanges = QPushButton('Submit Changes')
+            #create layout for labels and line edits
+            self.InputLayout = QGridLayout()
+            self.InputLayout.addWidget(self.TypeIDLabel,0,0)
+            self.InputLayout.addWidget(self.TypeIDinfo,0,1)
+            #mainWidget
+            self.TypeLayout =QVBoxLayout()
+            self.TypeLayout.addWidget(self.RecordTable)
+            self.TypeLayout.addLayout(self.InputLayout)
+            self.TypeLayout.addWidget(self.SubmitChanges)
+            self.DeleteType = QWidget()
+            self.DeleteType.setLayout(self.TypeLayout)
+            self.setCentralWidget(self.DeleteType)
+            #connections
+            self.SubmitChanges.clicked.connect(self.DeleteTypechanges)
+            
+        def DeleteTypechanges(self):
+            Type_ID = self.TypeIDinfo.text()
+            Type = Type_Controller()
+            Type.Delete_Type(Type_ID)
+

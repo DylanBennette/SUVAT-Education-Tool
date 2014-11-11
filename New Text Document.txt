@@ -1,0 +1,7 @@
+event@pythonschool.net
+eventdriven
+
+http://www.diotavelli.net/PyQtWiki/GraphicsView_-_SimpleAnimation
+
+Animate = QGraphicsIemAnimation()
+Time
